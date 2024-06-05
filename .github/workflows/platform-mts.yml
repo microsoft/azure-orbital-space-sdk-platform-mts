@@ -14,7 +14,7 @@ jobs:
       permissions:
         contents: read
         packages: write
-      uses: microsoft/azure-orbital-space-sdk-github-actions/.github/workflows/service.yml@b0ceb98a08c8624b5015a794e78bf1ca13109fc4
+      uses: microsoft/azure-orbital-space-sdk-github-actions/.github/workflows/service.yml@4dbcc4713fc33af1125d0716758a3853a66f6c74
       with:
         env-file: ./spacefx.env
       secrets:
