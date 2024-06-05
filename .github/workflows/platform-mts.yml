@@ -2,7 +2,7 @@ name: platform-mts
 
 on:
     push:
-      branches: [ main ]
+      branches: [ km/testing ]
   
 env:
   REGISTRY: ghcr.io/microsoft/ao-sdk
