@@ -1,9 +1,23 @@
 name: platform-mts
 
 on:
-  push:
-    branches: [ km/testing ]
-
-jobs:
-    initialize:
-        uses: microsoft/azure-orbital-space-sdk-github-actions/.github/workflows/service.yml@34b6db008874f7c7cd4e3611fa431d7e8b279d42
+    push:
+      branches: [ main ]
+  
+  env:
+    REGISTRY: ghcr.io/microsoft/ao-sdk
+    IMAGE_NAME: ${{ github.repository }}
+  
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+  
+      permissions:
+        contents: read
+        packages: write
+  
+      steps:
+          uses: microsoft/azure-orbital-space-sdk-github-actions/.github/workflows/service.yml@34b6db008874f7c7cd4e3611fa431d7e8b279d42
+          with:
+            env_file: ./spacefx.env
+            token: ${{ secrets.GITHUB_TOKEN }}
