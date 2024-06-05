@@ -1,0 +1,9 @@
+name: platform-mts
+
+on:
+  push:
+    branches: [ km/testing ]
+
+jobs:
+    initialize:
+        uses: microsoft/azure-orbital-space-sdk-github-actions/.github/workflows/service.yml@34b6db008874f7c7cd4e3611fa431d7e8b279d42
