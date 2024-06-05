@@ -15,6 +15,6 @@ jobs:
         packages: write
       uses: microsoft/azure-orbital-space-sdk-github-actions/.github/workflows/service.yml@34b6db008874f7c7cd4e3611fa431d7e8b279d42
       with:
-        env_file: ./spacefx.env
+        env-file: ./spacefx.env
       secrets:
         token: ${{ secrets.GITHUB_TOKEN }}
