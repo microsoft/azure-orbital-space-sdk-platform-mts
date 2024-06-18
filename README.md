@@ -46,9 +46,9 @@ Outputs:
 1. Copy the build artifacts to their locations in /var/spacedev
 
     ```bash
-    sudo mkdir -p /var/spacedev/nuget/position
+    sudo mkdir -p /var/spacedev/nuget/mts
 
-    sudo cp /var/spacedev/tmp/platform-mts/amd64/nuget/Microsoft.Azure.SpaceSDK.PlatformServices.MTS.Plugins.0.11.0.nupkg /var/spacedev/nuget/position/
+    sudo cp /var/spacedev/tmp/platform-mts/amd64/nuget/Microsoft.Azure.SpaceSDK.PlatformServices.MessageTranslationService.Plugins.0.11.0.nupkg /var/spacedev/nuget/mts
     ```
 
 1. Push the artifacts to the container registry
@@ -56,7 +56,7 @@ Outputs:
     ```bash
     # Push the nuget package to the container registry
     /var/spacedev/build/push_build_artifact.sh \
-            --artifact /var/spacedev/nuget/position/Microsoft.Azure.SpaceSDK.PlatformServices.MTS.Plugins.0.11.0.nupkg \
+            --artifact /var/spacedev/nuget/mts/Microsoft.Azure.SpaceSDK.PlatformServices.MessageTranslationService.Plugins.0.11.0.nupkg \
             --annotation-config azure-orbital-space-sdk-platform-mts.yaml \
             --architecture amd64 \
             --artifact-version 0.11.0
