@@ -1,6 +1,6 @@
 # Azure Orbital Space SDK - Platform-MTS
 
-[![spacefx-dev-build-publish](https://github.com/microsoft/azure-orbital-space-sdk-core/actions/workflows/devcontainer-feature-build-publish.yml/badge.svg)](https://github.com/microsoft/azure-orbital-space-sdk-core/actions/workflows/devcontainer-feature-build-publish.yml)
+[![platform-mts-build](https://github.com/microsoft/azure-orbital-space-sdk-platform-mts/actions/workflows/platform-mts-build-publish.yaml/badge.svg)](https://github.com/microsoft/azure-orbital-space-sdk-platform-mts/actions/workflows/platform-mts-build-publish.yaml)
 
 This repository hosts the Platform-MTS.
 
