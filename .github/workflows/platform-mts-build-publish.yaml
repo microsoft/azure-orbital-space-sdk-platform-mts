@@ -18,7 +18,7 @@ jobs:
       NUGET_PROJECT: ./src_pluginBase/pluginBase.csproj
       OUTPUT_DIR: /var/spacedev/tmp/platform-mts
       NUGET_STAGING_DIRECTORY: /var/spacedev/nuget/mts
-      NUGET_FILE_PREFIX: Microsoft.Azure.SpaceSDK.PlatformServices.MTS.Plugins
+      NUGET_FILE_PREFIX: Microsoft.Azure.SpaceSDK.PlatformServices.MessageTranslationService.Plugins
       ANNOTATION: azure-orbital-space-sdk-platform-mts.yaml
       WORKFLOW_AGENT: ubuntu-latest
       ARCHITECTURE: amd64
@@ -38,7 +38,7 @@ jobs:
       NUGET_PROJECT: ./src_pluginBase/pluginBase.csproj
       OUTPUT_DIR: /var/spacedev/tmp/platform-mts
       NUGET_STAGING_DIRECTORY: /var/spacedev/nuget/mts
-      NUGET_FILE_PREFIX: Microsoft.Azure.SpaceSDK.PlatformServices.MTS.Plugins
+      NUGET_FILE_PREFIX: Microsoft.Azure.SpaceSDK.PlatformServices.MessageTranslationService.Plugins
       ANNOTATION: azure-orbital-space-sdk-platform-mts.yaml
       WORKFLOW_AGENT: spacesdk-ubuntu-2204LTS-arm64
       ARCHITECTURE: arm64
