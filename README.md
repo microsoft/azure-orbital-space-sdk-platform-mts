@@ -2,6 +2,8 @@
 
 [![platform-mts-build](https://github.com/microsoft/azure-orbital-space-sdk-platform-mts/actions/workflows/platform-mts-build-publish.yaml/badge.svg)](https://github.com/microsoft/azure-orbital-space-sdk-platform-mts/actions/workflows/platform-mts-build-publish.yaml)
 
+[![test-platform-mts](https://github.com/microsoft/azure-orbital-space-sdk-platform-mts/actions/workflows/platform-mts-test.yaml/badge.svg)](https://github.com/microsoft/azure-orbital-space-sdk-platform-mts/actions/workflows/platform-mts-test.yaml)
+
 This repository hosts the Platform-MTS.
 
 Outputs:
