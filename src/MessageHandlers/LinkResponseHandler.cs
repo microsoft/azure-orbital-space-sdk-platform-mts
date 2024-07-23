@@ -22,14 +22,14 @@ public partial class MessageHandler<T> {
 
     private void SendFileToApp(MessageFormats.HostServices.Link.LinkResponse? message) {
 
-        _logger.LogInformation("Processing {messageType} for potential additional file transfer.(trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId);
+        _logger.LogInformation("Processing {messageType} for potential additional file transfer.(trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
 
         string? sourcePayloadAppId = message.LinkRequest.RequestHeader.Metadata.FirstOrDefault((_item) => _item.Key == "SOURCE_PAYLOAD_APP_ID").Value;
 
         // If the LinkRequest was sent by platform-mts itself,  does not contain the required SOURCE_PAYLOAD_APP_ID metadata field, or was successful in it's file transfer? drop the LinkResponse
         if (message.LinkRequest.RequestHeader.AppId == $"platform-{MessageFormats.Common.PlatformServices.Mts}".ToLower() || string.IsNullOrWhiteSpace(sourcePayloadAppId) || message.ResponseHeader.Status != MessageFormats.Common.StatusCodes.Successful) return;
 
-        _logger.LogInformation("Detected '{messageType}' associated with LinkRequest for payload-app file.  (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId);
+        _logger.LogInformation("Detected '{messageType}' associated with LinkRequest for payload-app file.  (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
 
         InboxToOutbox(message.LinkRequest);
 
@@ -37,8 +37,8 @@ public partial class MessageHandler<T> {
 
         if (!string.IsNullOrWhiteSpace(message.LinkRequest.Subdirectory)) filePath = Path.Combine(Core.GetXFerDirectories().Result.inbox_directory, message.LinkRequest.Subdirectory, message.LinkRequest.FileName);
 
-        _logger.LogInformation("{methodRequest}: Found SOURCE_PAYLOAD_APP_ID metadata {sourcePayloadAppID} and found file at '{filePath}'.  Sending LinkRequest to '{destinationAppId}'. (TrackingId: {trackingId}, CorrelationId: {correlationId})",
-            nameof(SendFileToApp), sourcePayloadAppId, filePath, sourcePayloadAppId, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId);
+        _logger.LogInformation("{methodRequest}: Found SOURCE_PAYLOAD_APP_ID metadata {sourcePayloadAppID} and found file at '{filePath}'.  Sending LinkRequest to '{destinationAppId}'. (trackingId: {trackingId} / correlationId: {correlationId} / status: '{status}')",
+            nameof(SendFileToApp), sourcePayloadAppId, filePath, sourcePayloadAppId, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
 
 
         // Modify the original LinkRequest to transfer the file to SOURCE_PAYLOAD_APP_ID
@@ -54,7 +54,7 @@ public partial class MessageHandler<T> {
         if (message == null) return;
 
         using (var scope = _serviceProvider.CreateScope()) {
-            _logger.LogInformation("Processing message type '{messageType}' from '{sourceApp}' (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, fullMessage.SourceAppId, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId);
+            _logger.LogInformation("Processing message type '{messageType}' from '{sourceApp}' (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, fullMessage.SourceAppId, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
 
             // Deployment Scenario: No Plugins
             // No plugins are loaded.  Process LinkResponse to see if the file requires an additional transfer
@@ -76,7 +76,7 @@ public partial class MessageHandler<T> {
             }
 
             // Deployment Plugin Scenario:
-            _logger.LogDebug("Passing message '{messageType}' to plugins (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId);
+            _logger.LogDebug("Passing message '{messageType}' to plugins (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
 
 
             MessageFormats.HostServices.Link.LinkResponse? pluginResult =
@@ -84,7 +84,7 @@ public partial class MessageHandler<T> {
                             orig_request: message,
                             pluginDelegate: _pluginDelegates.LinkResponse);
 
-            _logger.LogDebug("Plugins finished processing '{messageType}' (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId);
+            _logger.LogDebug("Plugins finished processing '{messageType}' (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
         };
     }
 }

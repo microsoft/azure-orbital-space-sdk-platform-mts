@@ -6,22 +6,22 @@ public partial class MessageHandler<T> {
     private void TaskingPreCheckResponseHandler(MessageFormats.HostServices.Sensor.TaskingPreCheckResponse? message, MessageFormats.Common.DirectToApp fullMessage) {
         if (message == null) return;
         using (var scope = _serviceProvider.CreateScope()) {
-            _logger.LogInformation("Processing message type '{messageType}' from '{sourceApp}' (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, fullMessage.SourceAppId, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId);
+            _logger.LogInformation("Processing message type '{messageType}' from '{sourceApp}' (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, fullMessage.SourceAppId, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
 
-            _logger.LogDebug("Passing message '{messageType}' and '{responseType}' to plugins (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId);
+            _logger.LogDebug("Passing message '{messageType}' and '{responseType}' to plugins (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
 
             MessageFormats.HostServices.Sensor.TaskingPreCheckResponse? pluginResult =
                          _pluginLoader.CallPlugins<MessageFormats.HostServices.Sensor.TaskingPreCheckResponse?, Plugins.PluginBase>(
                              orig_request: message,
                              pluginDelegate: _pluginDelegates.TaskingPreCheckResponse);
 
-            _logger.LogDebug("Plugins finished processing '{messageType}' and '{responseType}' (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId);
+            _logger.LogDebug("Plugins finished processing '{messageType}' and '{responseType}' (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
 
             if (pluginResult == null) {
-                _logger.LogInformation("Plugins nullified '{messageType}'.  Dropping Message (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId);
+                _logger.LogInformation("Plugins nullified '{messageType}'.  Dropping Message (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
                 return;
             } else {
-                _logger.LogInformation("Sending message '{messageType}' to '{appId}'  (trackingId: '{trackingId}' / correlationId: '{correlationId}')", message.GetType().Name, MessageFormats.Common.HostServices.Sensor, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId);
+                _logger.LogInformation("Sending message '{messageType}' to '{appId}'  (trackingId: '{trackingId}' / correlationId: '{correlationId}' / status: '{status}')", message.GetType().Name, MessageFormats.Common.HostServices.Sensor, message.ResponseHeader.TrackingId, message.ResponseHeader.CorrelationId, message.ResponseHeader.Status);
                 _client.DirectToApp(appId: $"hostsvc-{MessageFormats.Common.HostServices.Sensor}", message: pluginResult);
             }
         };
