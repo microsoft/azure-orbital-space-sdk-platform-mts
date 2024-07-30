@@ -56,15 +56,14 @@ public class LinkTests : IClassFixture<TestSharedContext> {
         Assert.Equal(MessageFormats.Common.StatusCodes.Pending, response.ResponseHeader.Status);
 
         maxTimeToWait = DateTime.Now.Add(TestSharedContext.MAX_TIMESPAN_TO_WAIT_FOR_MSG * 2);
-        bool fileExists = File.Exists(Path.Combine(inbox, "astronaut.jpg"));
+        bool fileExists = File.Exists(Path.Combine(outbox, "astronaut.jpg"));
 
-        while (!(fileExists) && DateTime.Now <= maxTimeToWait) {
+        while (fileExists && DateTime.Now <= maxTimeToWait) {
             Thread.Sleep(100);
-            fileExists = File.Exists(Path.Combine(inbox, "astronaut.jpg"));
+            fileExists = File.Exists(Path.Combine(outbox, "astronaut.jpg"));
         }
 
-
-        Assert.False(File.Exists(Path.Combine(inbox, "astronaut.jpg")));
+        Assert.False(File.Exists(Path.Combine(outbox, "astronaut.jpg")));
     }
 
     [Fact]
